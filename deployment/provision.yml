@@ -26,15 +26,6 @@
     easy_install: name=${item}
     with_items: ${python_packages}
   
-  - name: Create the SSH directory.
-    file: state=directory path=${project_root}/home/.ssh/
-
-  - name: Upload SSH known hosts.
-    copy: src=files/known_hosts dest=${project_root}/home/.ssh/known_hosts mode=0600
-
-  - name: Upload SSH key.
-    copy: src=files/key dest=${project_root}/home/.ssh/id_rsa mode=0600
-
   - name: Change permissions.
     shell: chown -R ${project_name}:${project_name} ${project_root}
 
@@ -42,9 +33,6 @@
     copy: src=files/init/${item} dest=/etc/supervisor/conf.d/${item}
     with_items: ${initfiles}
 
-  - name: Create the sql directory.
-    file: group=${project_name} owner=${project_name} mode=755 state=directory path=${project_root}/sql/
-  
   - name: Create the scripts directory.
     file: group=${project_name} owner=${project_name} mode=755 state=directory path=${project_root}/scripts/
   
