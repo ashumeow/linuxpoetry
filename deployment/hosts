@@ -1,0 +1,13 @@
+[remote:children]
+prod
+dev
+
+[servers:children]
+prod
+dev
+
+[prod]
+ec2-54-85-222-238.compute-1.amazonaws.com nickname=prod branch=master
+
+[dev]
+voyabot-dev nickname=dev branch=master

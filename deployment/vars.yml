@@ -1,0 +1,21 @@
+---
+project_name: linuxpoetry
+project_root: /var/projects/linuxpoetry
+project_repo: git@github.com:mrrrgn/linuxpoetry.git 
+system_packages:
+  - build-essential
+  - git
+  - libevent-dev
+  - libffi-dev
+  - python-dev
+  - python-setuptools
+  - supervisor
+  - bcrypt
+python_packages:
+  - pip
+  - virtualenv
+  - gunicorn
+initfiles:
+  - gunicorn.conf
+scripts:
+  - start_gunicorn.sh
