@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+        html {
+          height: 100%;
+          font-family: "Big Caslon", "Book Antiqua", "Palatino Linotype", Georgia, serif;
+        }
+
+        a {
+          text-decoration: none;
+          color: #222;
+        }
+
+        a:hover {
+          font-weight: bold;
+          cursor: pointer;
+        }
+
+        .post-frame a {
+            text-decoration:underline;
+        }
+
+        ul.top-nav {
+          border-top: solid 1px #444;
+          border-bottom: solid 1px #444;
+          list-style-type: none;
+          margin: auto;
+        }
+
+        ul.top-nav li {
+          display: inline;
+        }
+
+        .primary-frame {
+          margin-top: 20px; 
+          margin-bottom: 0px;
+          font-weight: normal;
+          color: #222;
+          width: 640px;
+          margin-left: auto;
+          margin-right: auto;
+          text-align: center;
+        }
+
+        .headline {
+          font-size: 60px;
+        }
+
+        .sub-headline {
+          font-size: 30px;
+          color: #444;
+        }
+
+        .tag-frame {
+          color: #555;
+          float: left;
+          font-size: 14px;
+          text-align: left;
+          margin-top: 5px;
+        }
+
+        .prev-next-frame {
+          float: right;
+        }
+
+        .post-frame {
+          width: 640px;
+          margin-top: 20px;
+          text-align: center;
+        }
+
+        .post-title {
+          color: #222;
+          font-size: 22px;
+          font-weight: bold;
+        }
+
+        .post-body {
+          font-size: 18px;
+          margin-top: 15px;
+          margin-bottom: 15px;
+        }
+
+        .timestamp {
+          font-size: 12px;
+          color: #555;
+        }
+
+        .twitter {
+          color: #4099ff;
+        }
+
+        .author {
+          position: absolute;
+          bottom: 15px;
+          right: 15px;
+          color: #444;
+          font-size: 15px;
+          text-decoration: none;
+        }
+    </style>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script>
+      function loadPostByID( post_id ) {
+        var url = "/json/" + post_id;
+        $.get( url, function( data ) {
+          // Start appending data to our postframe
+          $( "#tagframe" ).html( data.tags.join(", ") ).fadeIn(0.5);
+          $( ".post-title").html( data.title );
+          $( ".post-body" ).html( data.body );
+          if ( data.prev_post_id ) {
+            $( ".prev-post" ).html(
+              "<a onClick=\"loadPostByID(" +
+              data.prev_post_id + 
+              ");\"> prev </a> "
+            );
+          } else { 
+            $( ".prev-post" ).html("");
+          }
+          if ( data.next_post_id && data.prev_post_id ) {
+            $( ".prev-post" ).append(" | ");
+          }
+          if ( data.next_post_id ) { 
+            $( ".next-post" ).html(
+              "<a onClick=\"loadPostByID(" +
+              data.next_post_id + 
+              ");\"> next  </a>"
+            );
+          } else {
+            $( ".next-post" ).html("");
+          }
+          $( ".timestamp" ).html( data.updated_at );
+        },
+        "json"
+        );
+      }
+    </script>
+    <title> 
+        Musings of Morgan (Reece) Phillips
+    </title>
+  </head>
+  <body>
+    <div class="primary-frame">
+
+      <!-- BUILDING OUR HEADING -->
+      <span class="headline"> Linux Poetry</span>
+
+      <!-- NAVBAR -->
+      <ul class="sub-headline top-nav">
+        <li>/<a href="{% url "post" 1 %}"> about </a>/</li>
+        <li> 
+          <a
+            class="twitter"
+            onCLick=window.open("http://www.twitter.com/linuxpoetry")>
+            twitter 
+          </a> /
+        </li>
+      </ul>
+
+      <!-- UPPER LEFT NAV BAR -->
+      <div class="tag-frame">
+        {tags: <span id="tagframe"></span>  }
+      </div>
+      
+      <!-- UPPER RIGHT NAV BAR -->
+      <div class="prev-next-frame">
+        <span class="prev-post"></span>
+        <span class="next-post"></span>
+      </div>
+
+      <!-- POST CONTENTS -->
+      <br/>
+      <div id="postframe" class="post-frame">
+        <span class="post-title"> - No Content - </span>
+        <div class="post-body">
+        </div>
+        <span class="timestamp"></span>
+      </div>  
+
+    </div> 
+  </body>
+  <a href="http://mrrrgn.com" class="author">
+    __morgan_phillips__
+  </a>
+  <script>
+    // Load up our first post
+    loadPostByID({{post_id}});
+  </script>
+</html>
