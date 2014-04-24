@@ -9,7 +9,9 @@
   tasks:
   - name: Pull sources from the repository.
     git: repo=${project_repo} dest=${project_root}/code/ version=${branch}
-
+    notify:
+    - kill gunicorn 
+  
   - name: Upgrade the virtualenv.
     pip: requirements=${project_root}/code/requirements.txt virtualenv=${project_root}/env/
 

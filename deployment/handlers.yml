@@ -7,6 +7,6 @@
   service: name=nginx state=reloaded
   sudo_user: root
 
-- name: restart web frontend
-  action: service name=${project_name}_gunicorn state=restarted
+- name: kill gunicorn
+  action: command killall -9 gunicorn
   sudo_user: root
