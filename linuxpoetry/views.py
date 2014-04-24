@@ -9,12 +9,15 @@ import json
 def index(request, post_id=None):
     """Will return an index page."""
     if not post_id:
-        post_id = Post.objects.order_by('-created_at')[0].id
+        post = Post.objects.order_by('-created_at')[0]
+    else:
+        post = Post.objects.get(id=post_id)
     return render_to_response(
         'linuxpoetry/base.html',
         {
             'request': request,
-            'post_id': post_id,
+            'post_id': post.id,
+            'post': post,
             'tags': PostTag.objects.all().values_list('name')
         }
     )

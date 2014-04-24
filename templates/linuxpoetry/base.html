@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% autoescape off %}
 <html>
   <head>
     <style>
@@ -137,7 +138,7 @@
       }
     </script>
     <title> 
-        Musings of Morgan (Reece) Phillips
+        {% if post.title %} {{ post.title }}:{% endif %} Morgan (Reece) Phillips @linuxpoetry
     </title>
   </head>
   <body>
@@ -172,10 +173,11 @@
       <!-- POST CONTENTS -->
       <br/>
       <div id="postframe" class="post-frame">
-        <span class="post-title"> - No Content - </span>
+        <span class="post-title"> {% if post %} {{ post.title }} {% else %} - No Content - {% endif %} </span>
         <div class="post-body">
+        {% if post %} {{ post.body_with_html }} {% endif %}
         </div>
-        <span class="timestamp"></span>
+        <span class="timestamp"> {% if post %} {{ post.updated_at|date:"m-d-Y" }} {% endif %} </span>
       </div>  
 
     </div> 
@@ -187,4 +189,5 @@
     // Load up our first post
     loadPostByID({{post_id}});
   </script>
+{% endautoescape %}
 </html>
