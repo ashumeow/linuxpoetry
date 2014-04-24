@@ -91,15 +91,6 @@
         .twitter {
           color: #4099ff;
         }
-
-        .author {
-          position: absolute;
-          bottom: 15px;
-          right: 15px;
-          color: #444;
-          font-size: 15px;
-          text-decoration: none;
-        }
     </style>
     <title> 
         {% if post.title %} {{ post.title }}:{% endif %} Morgan (Reece) Phillips @linuxpoetry
@@ -154,13 +145,10 @@
         <div class="post-body">
         {% if post %} {{ post.body_with_html }} {% endif %}
         </div>
-        <span class="timestamp"> {% if post %} {{ post.updated_at|date:"m-d-Y" }} {% endif %} </span>
+        <span class="timestamp"> {% if post %} {{ post.updated_at|date:"m-d-Y" }} {% endif %}, <a href="http://mrrrgn.com">mrrrgn</a> </span>
       </div>  
 
     </div> 
   </body>
-  <a href="http://mrrrgn.com" class="author">
-    __morgan_phillips__
-  </a>
 {% endautoescape %}
 </html>
