@@ -7,5 +7,4 @@ urlpatterns = patterns(
     '',
     url(r'^$', views.index, name='index'),
     url(r'^(?P<post_id>\d+)/$', views.index, name='post'),
-    url(r'^json/(?P<post_id>\d+)/$', views.get_json_post, name='json_post'),
 )

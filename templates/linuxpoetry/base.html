@@ -101,42 +101,6 @@
           text-decoration: none;
         }
     </style>
-    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
-    <script>
-      function loadPostByID( post_id ) {
-        var url = "/json/" + post_id;
-        $.get( url, function( data ) {
-          // Start appending data to our postframe
-          $( "#tagframe" ).html( data.tags.join(", ") ).fadeIn(0.5);
-          $( ".post-title").html( data.title );
-          $( ".post-body" ).html( data.body );
-          if ( data.prev_post_id ) {
-            $( ".prev-post" ).html(
-              "<a onClick=\"loadPostByID(" +
-              data.prev_post_id + 
-              ");\"> prev </a> "
-            );
-          } else { 
-            $( ".prev-post" ).html("");
-          }
-          if ( data.next_post_id && data.prev_post_id ) {
-            $( ".prev-post" ).append(" | ");
-          }
-          if ( data.next_post_id ) { 
-            $( ".next-post" ).html(
-              "<a onClick=\"loadPostByID(" +
-              data.next_post_id + 
-              ");\"> next  </a>"
-            );
-          } else {
-            $( ".next-post" ).html("");
-          }
-          $( ".timestamp" ).html( data.updated_at );
-        },
-        "json"
-        );
-      }
-    </script>
     <title> 
         {% if post.title %} {{ post.title }}:{% endif %} Morgan (Reece) Phillips @linuxpoetry
     </title>
@@ -161,13 +125,26 @@
 
       <!-- UPPER LEFT NAV BAR -->
       <div class="tag-frame">
-        {tags: <span id="tagframe"></span>  }
+        {tags: <span id="tagframe"> {% if post %} {{ post.tags_str }} {% endif %}</span>  }
       </div>
       
       <!-- UPPER RIGHT NAV BAR -->
       <div class="prev-next-frame">
-        <span class="prev-post"></span>
-        <span class="next-post"></span>
+        <span class="prev-post"> 
+            {% if prev_id %} 
+                <a href="{% url "post" prev_id %}">
+                    <b>prev</b>
+                </a> 
+            {% endif %}
+        </span>
+        {% if prev_id and next_id %} | {% endif %}
+        <span class="next-post"> 
+            {% if next_id %} 
+                <a href="{% url "post" next_id %}">
+                    <b>next</b>
+                </a> 
+            {% endif %}
+        </span>
       </div>
 
       <!-- POST CONTENTS -->
@@ -185,9 +162,5 @@
   <a href="http://mrrrgn.com" class="author">
     __morgan_phillips__
   </a>
-  <script>
-    // Load up our first post
-    loadPostByID({{post_id}});
-  </script>
 {% endautoescape %}
 </html>

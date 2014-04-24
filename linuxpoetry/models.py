@@ -35,3 +35,8 @@ class Post(models.Model):
         return str(
             self.body
         ).replace('\n', '<br/>').replace('\t', ' ').replace('\r', '')
+
+    @property
+    def tags_str(self):
+        """Returns a comma delimited list of tags."""
+        return ', '.join([tag.name for tag in self.tags.all()])
