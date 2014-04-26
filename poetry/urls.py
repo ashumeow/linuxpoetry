@@ -1,3 +1,5 @@
+import os
+
 from django.conf.urls import patterns, include, url
 import linuxpoetry.urls
 
@@ -5,14 +7,10 @@ import linuxpoetry.urls
 from django.contrib import admin
 admin.autodiscover()
 
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'plus.views.home', name='home'),
-    # url(r'^plus/', include('plus.foo.urls')),
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-  url(r'^manage/admin/', include(admin.site.urls)),
-  url(r'^', include(linuxpoetry.urls)),
+urlpatterns = patterns(
+    '',
+    url(r'^', include(linuxpoetry.urls)),
 )
+
+if os.environ.get('POETRY_ADMIN') == '1':
+    urlpatterns += url(r'^manage/admin/', include(admin.site.urls)),
